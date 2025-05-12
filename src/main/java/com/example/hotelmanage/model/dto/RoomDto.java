@@ -1,0 +1,18 @@
+package com.example.hotelmanage.model.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class RoomDto {
+
+    private Integer size;
+
+    private Integer maxGuests;
+
+    private Integer pricePerOneNight;
+
+}
