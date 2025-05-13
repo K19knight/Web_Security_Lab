@@ -1,10 +1,77 @@
 package com.example.hotelmanage.auth.config;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 @Service
+@RequiredArgsConstructor
 public class CustomJwtService {
 
-    private static final String SECRET_KEY = "3c324ba3fc29638032e34293f8ada02c8ce621d75ec81d658c30a8e3040ca2c75bfbeac4c68b605a092c58a40cb125612ec4c1e25b769bffca4c7fc887becf0ebaa7a1001807008b83626ae1567d038724cf6d4d059d963a36139d370bc403e9c7a2392e1be274d9c14c114dcc0becb638bccb7b0f37d90fd817a3b42feedf3c54bb7f68061c1c374781b2cf2abc3b098133516eb53e67e8e0e721ee5940b164c1bfaa9174a9fae16080cfcaf2f42a628e811e493da475107723717700eb063587f2f2e2522e985ddc27baf60b1080a27ef0f86b71e9d5de30a2081d0bbb875e36e22993ca8606a9b863729a48dc1b26e4fe0a0ffa5e734305cc4103ff2c3935";
+    private final JwtProperties jwtProperties;
+
+
+    private Key getSignInKey() {
+        byte[] bytes = Decoders.BASE64.decode(jwtProperties.getSecret());
+        return Keys.hmacShaKeyFor(bytes);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsTFunction) {
+        final Claims claims = extractAllClaims(token);
+        return claimsTFunction.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
+    }
+
+    public Integer extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("id", Integer.class));
+    }
+
+    public String extractUserRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+
+    public String generateToken(CustomUserDetails customUserDetails) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("id", customUserDetails.getUser().getId());
+        extraClaims.put("role", customUserDetails.getUser().getRole().name());
+        return generateToken(extraClaims, customUserDetails);
+    }
+
+    public String generateToken(Map<String, Object> extraClaims, CustomUserDetails customUserDetails) {
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(customUserDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000))
+                .signWith(SignatureAlgorithm.HS256, getSignInKey())
+                .compact();
+    }
+
+    public boolean isTokenValid(String token, CustomUserDetails customUserDetails) {
+        final Integer userId = extractUserId(token);
+        return (userId.equals(customUserDetails.getUser().getId())) && !isTokenExpired(token);
+    }
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token){
+        return extractClaim(token, Claims::getExpiration);
+    }
+
 
 }

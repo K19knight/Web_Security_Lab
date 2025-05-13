@@ -46,7 +46,15 @@ public class UserService {
         return false;
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByIdForJwtFilter(Integer userId) {
+        return userRepository.findById(userId);
+    }
+
+    public User getUserByEmail(String email){
         return userRepository.findByEmail(email);
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 }

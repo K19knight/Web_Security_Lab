@@ -28,4 +28,12 @@ public class CustomUserDetailService implements UserDetailsService {
         return customUserDetails;
     }
 
+    public CustomUserDetails loadUserById(Integer userId) {
+        return userService.getUserByIdForJwtFilter(userId)
+                .map(user -> {
+                    customUserDetails.setUser(user);
+                    return customUserDetails;
+                })
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
+    }
 }
