@@ -1,5 +1,6 @@
 package com.example.hotelmanage.service;
 
+import com.example.hotelmanage.model.User;
 import com.example.hotelmanage.model.dto.UserDto;
 import com.example.hotelmanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,7 @@ public class UserService {
         return false;
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

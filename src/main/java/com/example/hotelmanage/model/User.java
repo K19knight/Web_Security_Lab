@@ -28,8 +28,8 @@ public class User {
     @Column(nullable = false)
     private String surname;
 
-    @Column(columnDefinition = "boolean default 0")
-    private Boolean blocked;
+    @Column(columnDefinition = "boolean default 1")
+    private Boolean nonBlocked;
 
     @Column
     private Integer blockDuration;
