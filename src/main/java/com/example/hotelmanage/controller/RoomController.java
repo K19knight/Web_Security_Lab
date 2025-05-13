@@ -18,29 +18,33 @@ public class RoomController {
     private RoomService roomService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Room>> getAllRooms(){
+    public ResponseEntity<List<Room>> getAllRooms() {
         List<Room> rooms = roomService.getAllRooms();
         return ResponseEntity.ok(rooms);
     }
 
     @GetMapping("/{roomId}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Integer roomId){
+    public ResponseEntity<Room> getRoomById(@PathVariable Integer roomId) {
         return roomService.getRoomById(roomId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Room> addRoom(@RequestBody RoomDto newRoom){
+    public ResponseEntity<Room> addRoom(@RequestBody RoomDto newRoom) {
         Room room = roomService.addRoom(newRoom);
         return new ResponseEntity<>(room, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{roomId}")
     @ResponseBody
-    public boolean deleteRoomById(@PathVariable Integer roomId){
+    public boolean deleteRoomById(@PathVariable Integer roomId) {
         return roomService.deleteRoom(roomId);
     }
 
-
+    @PutMapping("/{roomId}")
+    public ResponseEntity<Room> editRoom(@PathVariable Integer roomId, @RequestBody RoomDto editRoom) {
+        Room room = roomService.editRoom(roomId, editRoom);
+        return ResponseEntity.ok(room);
+    }
 }

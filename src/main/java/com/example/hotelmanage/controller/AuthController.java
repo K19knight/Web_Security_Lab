@@ -31,7 +31,7 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } catch (ResponseStatusException ex) {
             Map<String, String> error = new HashMap<>();
-            error.put("message", ex.getReason()); // albo ex.getMessage() jeśli chcesz pełny tekst
+            error.put("message", ex.getReason());
             return ResponseEntity.status(ex.getStatusCode()).body(error);
         }
     }

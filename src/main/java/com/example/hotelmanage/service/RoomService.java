@@ -40,4 +40,12 @@ public class RoomService {
         return false;
     }
 
+    public Room editRoom(Integer roomId, RoomDto editRoom) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found with id: " + roomId));
+
+        room.setSize(editRoom.getSize());
+        room.setMaxGuests(editRoom.getMaxGuests());
+        room.setPricePerOneNight(editRoom.getPricePerOneNight());
+        return roomRepository.save(room);
+    }
 }
