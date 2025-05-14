@@ -7,6 +7,7 @@ import com.example.hotelmanage.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,18 +33,21 @@ public class RoomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Room> addRoom(@RequestBody RoomDto newRoom) {
         Room room = roomService.addRoom(newRoom);
         return new ResponseEntity<>(room, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{roomId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseBody
     public boolean deleteRoomById(@PathVariable Integer roomId) {
         return roomService.deleteRoom(roomId);
     }
 
     @PutMapping("/{roomId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Room> editRoom(@PathVariable Integer roomId, @RequestBody RoomDto editRoom) {
         Room room = roomService.editRoom(roomId, editRoom);
         return ResponseEntity.ok(room);

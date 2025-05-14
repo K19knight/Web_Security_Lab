@@ -15,4 +15,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @Query(value = "SELECT r.room.id FROM Reservation r WHERE r.start < ?2 AND r.end > ?1")
     List<Integer> findReservedRoomsId (LocalDateTime start, LocalDateTime end);
 
+    List<Reservation> findAllByCustomerId(Integer userId);
 }

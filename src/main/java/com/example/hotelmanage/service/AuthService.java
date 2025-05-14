@@ -6,15 +6,19 @@ import com.example.hotelmanage.auth.model.AuthReq;
 import com.example.hotelmanage.auth.model.AuthRes;
 import com.example.hotelmanage.auth.model.RegisterReq;
 import com.example.hotelmanage.model.User;
+import com.example.hotelmanage.model.dto.ChangePasswordDto;
 import com.example.hotelmanage.model.enums.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -71,6 +75,20 @@ public class AuthService {
         userDetails.setUser(user);
         String token = jwtService.generateToken(userDetails);
         return AuthRes.builder().token(token).build();
+    }
+
+    public ResponseEntity<?> changePassword(CustomUserDetails userDetails, ChangePasswordDto passwordDto) {
+        User user = userDetails.getUser();
+
+        if (!passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Stare hasło jest nieprawidłowe."));
+        }
+
+        user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+        userService.saveUser(user);
+
+        return ResponseEntity.ok(Map.of("message", "Hasło zostało zmienione."));
     }
 
 }

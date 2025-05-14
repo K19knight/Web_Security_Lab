@@ -37,4 +37,7 @@ public class Reservation {
     @Column(nullable = false)
     private Integer price;
 
+    @Column(nullable = false)
+    private Integer guests;
+
 }

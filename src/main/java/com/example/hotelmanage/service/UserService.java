@@ -2,6 +2,7 @@ package com.example.hotelmanage.service;
 
 import com.example.hotelmanage.auth.config.CustomUserDetails;
 import com.example.hotelmanage.model.User;
+import com.example.hotelmanage.model.dto.ChangePasswordDto;
 import com.example.hotelmanage.model.dto.UpdateUserDto;
 import com.example.hotelmanage.model.dto.UserDto;
 import com.example.hotelmanage.repository.UserRepository;
@@ -36,6 +37,20 @@ public class UserService {
 
     public Optional<UserDto> getUserById (Integer id) {
         return userRepository.findById(id)
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getName(),
+                        user.getSurname(),
+                        user.getRole()));
+    }
+
+    public Optional<User> getFullUserById (Integer id){
+        return userRepository.findById(id);
+    }
+
+    public Optional<UserDto> getMyProfile(CustomUserDetails userDetails) {
+        return userRepository.findById(userDetails.getUser().getId())
                 .map(user -> new UserDto(
                         user.getId(),
                         user.getEmail(),
@@ -81,4 +96,5 @@ public class UserService {
         User updated = userRepository.save(user);
         return getUserById(updated.getId());
     }
+
 }
