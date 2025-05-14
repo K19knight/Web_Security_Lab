@@ -2,6 +2,7 @@ package com.example.hotelmanage.controller;
 
 import com.example.hotelmanage.model.Room;
 import com.example.hotelmanage.model.dto.RoomDto;
+import com.example.hotelmanage.model.dto.RoomFilterDto;
 import com.example.hotelmanage.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,4 +48,10 @@ public class RoomController {
         Room room = roomService.editRoom(roomId, editRoom);
         return ResponseEntity.ok(room);
     }
+    @GetMapping("/getAvailable")
+    public ResponseEntity<List<Room>> getAvailableRooms(@RequestBody RoomFilterDto roomDto) {
+        List<Room> rooms = roomService.getAvailable(roomDto);
+        return ResponseEntity.ok(rooms);
+    }
+
 }
