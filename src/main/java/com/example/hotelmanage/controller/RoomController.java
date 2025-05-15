@@ -25,7 +25,7 @@ public class RoomController {
         return ResponseEntity.ok(rooms);
     }
 
-    @GetMapping("/{roomId}")
+    @GetMapping("/{roomId:\\d}")
     public ResponseEntity<Room> getRoomById(@PathVariable Integer roomId) {
         return roomService.getRoomById(roomId)
                 .map(ResponseEntity::ok)
@@ -52,7 +52,7 @@ public class RoomController {
         Room room = roomService.editRoom(roomId, editRoom);
         return ResponseEntity.ok(room);
     }
-    @GetMapping("/getAvailable")
+    @PostMapping("/getAvailable")
     public ResponseEntity<List<Room>> getAvailableRooms(@RequestBody RoomFilterDto roomDto) {
         List<Room> rooms = roomService.getAvailable(roomDto);
         return ResponseEntity.ok(rooms);

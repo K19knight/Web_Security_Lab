@@ -11,13 +11,14 @@ const RoomSearch = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const savedFilters = JSON.parse(localStorage.getItem('roomSearchParams'));
-        if (savedFilters) {
-            setStartDate(savedFilters.startDate || '');
-            setEndDate(savedFilters.endDate || '');
-            setGuests(savedFilters.guests || '');
-            setSize(savedFilters.size || '');
-            setPricePerOneNight(savedFilters.price || '');
+        const savedParams = localStorage.getItem('roomSearchParams');
+        if (savedParams) {
+            const params = JSON.parse(savedParams);
+            if (params.start) setStartDate(params.start.split('T')[0]);
+            if (params.end) setEndDate(params.end.split('T')[0]);
+            if (params.guests) setGuests(params.guests);
+            if (params.size) setSize(params.size);
+            if (params.pricePerOneNight) setPricePerOneNight(params.pricePerOneNight);
         }
     }, []);
 
@@ -40,7 +41,7 @@ const RoomSearch = () => {
         const start = new Date(`${startDate}T16:00:00`);
         const end = new Date(`${endDate}T11:00:00`);
 
-        if (start >= end) {
+        if (start > end) {
             toast.error("Data zakończenia musi być po dacie rozpoczęcia");
             return;
         }
