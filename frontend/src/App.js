@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import NotLoggedIn from "./components/routes/NotLoggedIn";
+import {AuthProvider} from "./auth/AuthContext";
+import {ToastContainer} from "react-toastify";
+import LoginForm from "./pages/Login";
+import Navbar from "./components/Navbar";
+import Register from "./pages/Register";
+import RoomSearch from "./pages/RoomSearch";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    let routes = (
+        <Routes>
+            <Route path="/"/>
+            <Route element={<NotLoggedIn/>}>
+                <Route path="/login" element={<LoginForm/>}/>
+                <Route path="/register" element={<Register/>}/>
+            </Route>
+            <Route path="/searchRoom" element={<RoomSearch/>}/>
+        </Routes>
+    )
+
+    return (
+        <Router>
+            <AuthProvider>
+                <ToastContainer position={"top-right"}/>
+                <Navbar/>
+                <div id={"container"}>
+                    {routes}
+                </div>
+            </AuthProvider>
+        </Router>
+    );
 }
 
 export default App;
