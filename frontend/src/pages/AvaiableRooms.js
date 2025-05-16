@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from '../config/axiosConfig';
+import axios from '../auth/config/axiosConfig';
 import Room from "../components/Room";
 import { toast } from "react-toastify";
 

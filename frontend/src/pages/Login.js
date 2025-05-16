@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useAuth} from '../auth/AuthContext';
-import axios from '../config/axiosConfig'
+import axios from '../auth/config/axiosConfig'
 import {toast} from "react-toastify";
 const LoginForm = () => {
     const {login, error} = useAuth();

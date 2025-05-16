@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import axios from '../config/axiosConfig';
+import axios from '../auth/config/axiosConfig';
 import {toast} from 'react-toastify';
 import {useAuth} from "../auth/AuthContext";
 

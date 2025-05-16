@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import axios from '../config/axiosConfig';
+import axios from '../auth/config/axiosConfig';
 import {useAuth} from "../auth/AuthContext";
 //import RentButton from "./RentButton"; // jeśli używasz takiego do rezerwacji
 
