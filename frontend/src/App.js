@@ -7,7 +7,10 @@ import LoginForm from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import RoomSearch from "./pages/RoomSearch";
-import AvaiableRooms from "./pages/AvailableRooms";
+import AvailableRooms from "./pages/AvailableRooms";
+import LoggedIn from "./components/routes/LoggedIn";
+import IsAdmin from "./components/routes/IsAdmin";
+import AddRoom from "./pages/AddRoom";
 
 function App() {
 
@@ -19,7 +22,13 @@ function App() {
                 <Route path="/register" element={<Register/>}/>
             </Route>
             <Route path="/searchRoom" element={<RoomSearch/>}/>
-            <Route path="/availableRooms" element={<AvaiableRooms/>}/>
+            <Route path="/availableRooms" element={<AvailableRooms/>}/>
+
+            <Route element={<LoggedIn/>}>
+                <Route element={<IsAdmin/>}>
+                    <Route path="/addRoom" element={<AddRoom/>}/>
+                </Route>
+            </Route>
         </Routes>
     )
 

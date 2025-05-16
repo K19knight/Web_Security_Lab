@@ -37,7 +37,7 @@ body {
     background-image: url("../public/backgroundjpg.jpg");
     background-size: cover;
     background-attachment: fixed;
-
+    overflow-x: hidden;
 }
 
 .logo {
@@ -140,7 +140,7 @@ body {
     color: #333;
 }
 
-.title-info{
+.title-info {
     font-size: 2rem;
     font-weight: 700;
     text-align: center;
@@ -176,7 +176,7 @@ body {
     background-color: rgba(255, 255, 255, 0.95);
 }
 
-.room-info button{
+.room-info button {
     border-radius: 16px;
     font-size: 0.9rem;
 }
@@ -307,7 +307,7 @@ body {
     color: #333;
 }
 
-.filters-title{
+.filters-title {
     flex: 1;
     font-weight: bold;
     font-size: 2rem;
@@ -345,11 +345,116 @@ body {
 
 }
 
-.filter-action{
+.filter-action {
     display: flex;
     flex-direction: row;
 }
 
+.modal-backdrop {
+    max-width: 80%;
+    display: flex;
+    margin-left: 10%;
+    align-items: center;
+    animation: fadeIn 0.5s ease-in-out;
+    background: rgba(0, 0, 0, 0.1);
+    max-height: 50%;
+    margin-top: 40%;
+}
 
+.modal-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 100%;
+    text-align: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    animation: slideIn 0.5s ease forwards;
+    font-family: 'Roboto', sans-serif;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+}
+
+.modal-backdrop.exit {
+    animation: fadeOut 0.4s forwards;
+}
+
+.modal-box.exit {
+    animation: slideOut 0.4s forwards;
+}
+
+.modal-backdrop.exit,
+.modal-box.exit {
+    pointer-events: none;
+}
+
+.modal-buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.modal-button-confirm {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.modal-button-confirm:hover {
+    background-color: #43a047;
+}
+
+.modal-button-cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.modal-button-cancel:hover {
+    background-color: #e53935;
+}
 
 

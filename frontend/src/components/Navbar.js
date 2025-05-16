@@ -21,7 +21,7 @@ const Navbar = () => {
                 </NavLink>
 
                 {(isAdmin) && (
-                    <NavLink to="/">
+                    <NavLink to="/addRoom">
                         Dodaj Pokoje
                     </NavLink>
                 )}

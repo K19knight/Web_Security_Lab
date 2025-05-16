@@ -102,7 +102,7 @@ const FilterRooms = ({onFiltersChange, onSortChange}) => {
                     <label>Liczba gości:</label>
                     <div><input type="number" name="guests" value={filters.guests} onChange={handleChange}/></div>
 
-                    <label>Rozmiar pokoju:</label>
+                    <label>Min. rozmiar pokoju:</label>
                     <div><input type="number" name="size" value={filters.size} onChange={handleChange}/></div>
 
                 </div>
