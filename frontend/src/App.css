@@ -157,10 +157,10 @@ body {
     display: flex;
     background-color: rgba(255, 255, 255, 0.85);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 16px;
     max-width: 65%;
     margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     font-family: 'Roboto', sans-serif;
     color: #333;
 }
@@ -168,12 +168,46 @@ body {
 
 .room-info {
     flex: 1;
-    margin-right: 20px;
+    border-radius: 10px;
+    max-width: 65%;
+    padding: 10px 10px 10px 20px;
+    margin: 20px 20px 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.room-info button{
+    border-radius: 16px;
+    font-size: 0.9rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.button-group > * {
+    flex: none;
 }
 
 .room-image {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    overflow: hidden;
 }
+
+.room-image img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
 .room-container h2 {
     text-align: center;
     font-size: 2.5em;
@@ -183,7 +217,7 @@ body {
 }
 
 .room-container p {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: 400;
     color: #333;
     margin-bottom: 15px;
@@ -221,6 +255,101 @@ body {
 .page-link:hover {
     background-color: #0056b3;
 }
+
+.filters button {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: auto;
+    color: #333333;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.filters button:hover {
+    background-color: #e9ecef;
+}
+
+.sort-button-icon {
+    margin-left: 5px;
+}
+
+.filter-select {
+    padding: 4px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    width: 25%;
+    background-color: #fff;
+    color: #495057;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 20px;
+    border-radius: 60px;
+    max-width: 60%;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+.filters-title{
+    flex: 1;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.filter-label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+
+.filters-content {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.filters-data {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.filters-data input {
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #ced4da;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 1rem;
+
+}
+
+.filter-action{
+    display: flex;
+    flex-direction: row;
+}
+
 
 
 

@@ -7,7 +7,7 @@ import LoginForm from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import RoomSearch from "./pages/RoomSearch";
-import AvaiableRooms from "./pages/AvaiableRooms";
+import AvaiableRooms from "./pages/AvailableRooms";
 
 function App() {
 

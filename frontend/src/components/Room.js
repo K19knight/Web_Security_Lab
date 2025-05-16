@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from '../auth/config/axiosConfig';
 import {useAuth} from "../auth/AuthContext";
-//import RentButton from "./RentButton"; // jeśli używasz takiego do rezerwacji
+import RentButton from "./RentButton";
 
 const Room = ({room, hidePrice, roomRent}) => {
     const {user} = useAuth();
@@ -59,18 +59,18 @@ const Room = ({room, hidePrice, roomRent}) => {
                 <h2>{room.name}</h2>
                 <p><strong>Rozmiar (m²):</strong> {room.size}</p>
                 <p><strong>Maksymalna liczba gości:</strong> {room.maxGuests}</p>
-                <p><strong>chushcuahsd:</strong> {room.id}</p>
                 {!hidePrice && <p><strong>Cena za noc: {room.pricePerOneNight} PLN</strong></p>}
 
-                {isAdmin && (
-                    <div>
-                        <button className="btn btn-danger" onClick={handleDelete}>Usuń pokój</button>
+                {(user || isAdmin) && (
+                    <div className="button-group">
+                        {user && <RentButton roomId={room.id} />}
+                        {isAdmin && (
+                            <div className="delete-button">
+                                <button className="btn btn-danger" onClick={handleDelete}>Usuń pokój</button>
+                            </div>
+                        )}
                     </div>
                 )}
-
-                <div style={{marginTop: '10px'}}>
-                    TUTAJ BEDIE WYNAJMIJ{/*{!hideRentButton && <RentButton roomId={room.id} />}*/}
-                </div>
 
                 {roomRent && (
                     <div className="rent-info">
