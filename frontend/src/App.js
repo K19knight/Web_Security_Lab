@@ -10,7 +10,8 @@ import RoomSearch from "./pages/RoomSearch";
 import AvailableRooms from "./pages/AvailableRooms";
 import LoggedIn from "./components/routes/LoggedIn";
 import IsAdmin from "./components/routes/IsAdmin";
-import AddRoom from "./pages/AddRoom";
+import AddRoom from "./pages/admin/AddRoom";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
 
@@ -25,8 +26,15 @@ function App() {
             <Route path="/availableRooms" element={<AvailableRooms/>}/>
 
             <Route element={<LoggedIn/>}>
+                <Route path="/reserveRoom"/>
+                <Route path="/myProfile" element={<MyProfile/>}/>
+                <Route path="/myProfile/change-password"/>
                 <Route element={<IsAdmin/>}>
                     <Route path="/addRoom" element={<AddRoom/>}/>
+                    <Route path="/manageRooms"/>
+                    <Route path="/manageRooms/edit"/>
+                    <Route path="/manageReservation"/>
+                    <Route path="/manageUsers"/>
                 </Route>
             </Route>
         </Routes>

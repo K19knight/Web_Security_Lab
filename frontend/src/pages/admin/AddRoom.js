@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import axios from '../auth/config/axiosConfig';
+import axios from '../../auth/config/axiosConfig';
 import {toast} from 'react-toastify';
-import ConfirmationModal from "../components/ConfirmationModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 const AddRoom = () => {
     const [showModal, setShowModal] = useState(false);

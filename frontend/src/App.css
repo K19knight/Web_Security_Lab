@@ -374,6 +374,8 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -456,5 +458,20 @@ body {
 .modal-button-cancel:hover {
     background-color: #e53935;
 }
+.my-profile{
+    text-align: center;
+}
+
+.my-profile input{
+    font-family: 'Roboto', sans-serif;
+    width: 80%;
+    border: 1px solid #ced4da;
+    padding: 5px;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 1rem;
+}
+
+
 
 

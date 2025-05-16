@@ -9,7 +9,7 @@ const AvailableRooms = () => {
     const [filteredRooms, setFilteredRooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [roomsPerPage] = useState(3);
+    const [roomsPerPage] = useState(5);
 
     const fetchAvailableRooms = useCallback(async () => {
         setLoading(true);

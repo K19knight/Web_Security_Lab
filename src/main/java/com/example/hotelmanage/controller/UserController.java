@@ -58,11 +58,11 @@ public class UserController {
         return userService.getMyProfile(userDetails);
     }
     
-    @PutMapping("/{userId}")
+    @PutMapping("/myProfile")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> editUserById(@PathVariable Integer userId, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody UpdateUserDto userDto){
+    public ResponseEntity<?> editUserById(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody UpdateUserDto userDto){
         try{
-            return userService.updateUser(userDetails, userId, userDto)
+            return userService.updateUser(userDetails, userDto)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
         } catch (ResponseStatusException ex) {

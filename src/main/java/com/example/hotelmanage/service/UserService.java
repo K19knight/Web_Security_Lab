@@ -79,12 +79,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<UserDto> updateUser(CustomUserDetails userDetails, Integer userId, UpdateUserDto userDto) {
-        if (!userDetails.getUser().getId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nie masz uprawnień do zmian!");
-        }
+    public Optional<UserDto> updateUser(CustomUserDetails userDetails, UpdateUserDto userDto) {
 
-        Optional<User> existingUserOpt = userRepository.findById(userId);
+        Optional<User> existingUserOpt = userRepository.findById(userDetails.getUser().getId());
         if (existingUserOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Użytkownik nie istnieje");
         }
