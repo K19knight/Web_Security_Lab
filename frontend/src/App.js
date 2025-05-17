@@ -12,6 +12,7 @@ import LoggedIn from "./components/routes/LoggedIn";
 import IsAdmin from "./components/routes/IsAdmin";
 import AddRoom from "./pages/admin/AddRoom";
 import MyProfile from "./pages/MyProfile";
+import ReserveRoom from "./pages/ReserveRoom";
 
 function App() {
 
@@ -26,9 +27,8 @@ function App() {
             <Route path="/availableRooms" element={<AvailableRooms/>}/>
 
             <Route element={<LoggedIn/>}>
-                <Route path="/reserveRoom"/>
+                <Route path="/reserveRoom" element={<ReserveRoom/>}/>
                 <Route path="/myProfile" element={<MyProfile/>}/>
-                <Route path="/myProfile/change-password"/>
                 <Route element={<IsAdmin/>}>
                     <Route path="/addRoom" element={<AddRoom/>}/>
                     <Route path="/manageRooms"/>

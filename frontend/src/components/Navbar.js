@@ -19,12 +19,14 @@ const Navbar = () => {
                 <NavLink to="/searchRoom">
                     Wyszukaj Pokój
                 </NavLink>
-                {(!isAdmin)}
-                <>
-                    <NavLink to="/myProfile">
-                        Mój Profil
-                    </NavLink>
-                </>
+                {(!isAdmin) && (
+                    <>
+                        <NavLink to="/myProfile">
+                            Mój Profil
+                        </NavLink>
+                    </>
+                )}
+
 
                 {(isAdmin) && (
                     <>

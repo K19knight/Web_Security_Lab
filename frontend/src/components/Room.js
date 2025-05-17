@@ -3,10 +3,28 @@ import axios from '../auth/config/axiosConfig';
 import {useAuth} from "../auth/AuthContext";
 import RentButton from "./RentButton";
 
-const Room = ({room, hidePrice, roomRent}) => {
+const Room = ({ room, roomRent, hideRentButton = false }) => {
     const {user} = useAuth();
     const [imageSrc, setImageSrc] = useState(null);
 
+    let stayNights = null;
+    let totalPrice = null;
+    let guests = null;
+
+    try {
+        const searchParams = JSON.parse(localStorage.getItem("roomSearchParams"));
+        const start = new Date(searchParams?.start);
+        const end = new Date(searchParams?.end);
+        guests = searchParams?.guests;
+
+        if (!isNaN(start) && !isNaN(end)) {
+            const diffTime = end.getTime() - start.getTime();
+            stayNights = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // liczba dni
+            totalPrice = stayNights * room.pricePerOneNight;
+        }
+    } catch (e) {
+        console.error("Nie można sparsować dat z localStorage.roomSearchParams");
+    }
     useEffect(() => {
         const getImageSource = async (roomSize) => {
             let imageName;
@@ -39,6 +57,8 @@ const Room = ({room, hidePrice, roomRent}) => {
             }
         };
 
+
+
         getImageSource(room.size);
     }, [room.size]);
     const handleDelete = async () => {
@@ -56,14 +76,15 @@ const Room = ({room, hidePrice, roomRent}) => {
     return (
         <div className="room-container">
             <div className="room-info">
-                <h2>{room.name}</h2>
-                <p><strong>Rozmiar (m²):</strong> {room.size}</p>
-                <p><strong>Maksymalna liczba gości:</strong> {room.maxGuests}</p>
-                {!hidePrice && <p><strong>Cena za noc: {room.pricePerOneNight} PLN</strong></p>}
+                <p><strong>Okres wynajmu:</strong> {stayNights} noc{stayNights === 1 ? '' : 'e'}, {guests} {guests === 1 ? 'osoba' : 'osoby'}</p>
+                <h3><strong>{totalPrice} zł </strong></h3>
+                <p><strong>Data zameldowania:</strong> {new Date(JSON.parse(localStorage.getItem("roomSearchParams"))?.start).toLocaleDateString()}</p>
+                <p><strong>Data wymeldowania:</strong> {new Date(JSON.parse(localStorage.getItem("roomSearchParams"))?.end).toLocaleDateString()}</p>
+
 
                 {(user || isAdmin) && (
                     <div className="button-group">
-                        {user && <RentButton roomId={room.id} />}
+                        {user && !hideRentButton && <RentButton roomId={room.id} />}
                         {isAdmin && (
                             <div className="delete-button">
                                 <button className="btn btn-danger" onClick={handleDelete}>Usuń pokój</button>

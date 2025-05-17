@@ -17,6 +17,16 @@ const FilterRooms = ({onFiltersChange, onSortChange}) => {
         pricePerOneNight: ""
     });
 
+    const todayDate = new Date().toISOString().split('T')[0];
+    const getNextDay = (dateStr) => {
+        if (!dateStr) return todayDate;
+        const date = new Date(dateStr);
+        date.setDate(date.getDate() + 1);
+        return date.toISOString().split('T')[0];
+    };
+
+    const minEndDate = getNextDay(todayDate);
+
     const [sortByDesc, setSortByDesc] = useState(true);
 
     useEffect(() => {
@@ -91,11 +101,11 @@ const FilterRooms = ({onFiltersChange, onSortChange}) => {
 
             <div className="filters-content">
                 <div className="filters-data">
-                    <label>Data rozpoczęcia:</label>
-                    <div><input type="date" name="start" value={filters.start} onChange={handleChange}/></div>
+                    <label>Data zameldowania:</label>
+                    <div><input type="date" name="start" value={filters.start} onChange={handleChange} min={todayDate}/></div>
 
-                    <label>Data zakończenia:</label>
-                    <div><input type="date" name="end" value={filters.end} onChange={handleChange}/></div>
+                    <label>Data wymeldowania:</label>
+                    <div><input type="date" name="end" value={filters.end} onChange={handleChange} min={minEndDate}/></div>
                 </div>
 
                 <div className="filters-data">

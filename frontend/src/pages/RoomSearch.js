@@ -9,6 +9,15 @@ const RoomSearch = () => {
     const [size, setSize] = useState('');
     const [pricePerOneNight, setPricePerOneNight] = useState('');
     const navigate = useNavigate();
+    const todayDate = new Date().toISOString().split('T')[0];
+    const getNextDay = (dateStr) => {
+        if (!dateStr) return todayDate;
+        const date = new Date(dateStr);
+        date.setDate(date.getDate() + 1);
+        return date.toISOString().split('T')[0];
+    };
+
+    const minEndDate = getNextDay(todayDate);
 
     useEffect(() => {
         const savedParams = localStorage.getItem('roomSearchParams');
@@ -63,24 +72,26 @@ const RoomSearch = () => {
             <h2 className="page-title">Wyszukaj pokój</h2>
             <form className="form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Data rozpoczęcia *</label>
+                    <label>Data zameldowania *</label>
                     <input
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
                         required
                         className="form-control"
+                        min={todayDate}
                     />
                     <small>Godzina rozpoczęcia: 16:00</small>
                 </div>
                 <div className="form-group">
-                    <label>Data zakończenia *</label>
+                    <label>Data wymeldowania *</label>
                     <input
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
                         required
                         className="form-control"
+                        min={minEndDate}
                     />
                     <small>Godzina zakończenia: 11:00</small>
                 </div>

@@ -1,14 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const RentButton = ({ carId }) => {
+const RentButton = ({ roomId }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/reserveRoom", {
+            state: { roomId: roomId }
+        });
+    };
+
     return (
         <div className="rent-button">
-            <Link to={`/rent-car/${carId}`} style={{ textDecoration: "none" }}>
-                <button className="btn btn-primary">
-                    Rezerwuj
-                </button>
-            </Link>
+            <button className="btn btn-primary" onClick={handleClick}>
+                Rezerwuj
+            </button>
         </div>
     );
 };
