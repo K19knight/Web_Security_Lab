@@ -60,6 +60,16 @@ const MyProfile = () => {
         }
     };
 
+    const refreshReservations = async () => {
+        try {
+            const res = await axios.get('/api/user/myReservation');
+            setReservations(res.data);
+        } catch (error) {
+            toast.error('Błąd podczas odświeżania rezerwacji');
+            console.error(error);
+        }
+    };
+
     const handleCancel = () => {
         setFormData(profile);
         setIsEditing(false);
@@ -181,7 +191,7 @@ const MyProfile = () => {
                     <div style={{ marginTop: '40px' }}>
                         <h3 className="page-title">Moje rezerwacje</h3>
                         {sortedReservations.map(res => (
-                            <MyReservation key={res.reservationId} reservation={res} />
+                            <MyReservation key={res.reservationId} reservation={res} onCancel={refreshReservations} />
                         ))}
                     </div>
                 )}

@@ -25,7 +25,7 @@ public class RoomController {
         return ResponseEntity.ok(rooms);
     }
 
-    @GetMapping("/{roomId:\\d}")
+    @GetMapping("/{roomId:\\d+}")
     public ResponseEntity<Room> getRoomById(@PathVariable Integer roomId) {
         return roomService.getRoomById(roomId)
                 .map(ResponseEntity::ok)

@@ -29,7 +29,7 @@ const ReserveRoom = () => {
                 setRoom(response.data);
             } catch (error) {
                 toast.error("Nie udało się pobrać danych pokoju.");
-                navigate("/rooms");
+                navigate("/availableRooms");
             } finally {
                 setLoading(false);
             }

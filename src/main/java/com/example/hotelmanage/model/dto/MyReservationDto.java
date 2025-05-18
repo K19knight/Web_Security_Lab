@@ -15,7 +15,6 @@ public class MyReservationDto {
     private LocalDateTime end;
     private Integer guests;
     private Integer price;
-
     private Integer roomId;
     private Integer roomSize;
     private Integer maxGuests;
