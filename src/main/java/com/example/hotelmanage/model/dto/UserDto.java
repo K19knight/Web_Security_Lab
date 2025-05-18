@@ -20,4 +20,6 @@ public class UserDto {
 
     private UserType role;
 
+    private Boolean nonBlocked;
+
 }

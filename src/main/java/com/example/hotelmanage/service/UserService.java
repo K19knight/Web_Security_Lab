@@ -9,6 +9,7 @@ import com.example.hotelmanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,7 +32,8 @@ public class UserService {
                         user.getEmail(),
                         user.getName(),
                         user.getSurname(),
-                        user.getRole()))
+                        user.getRole(),
+                        user.getNonBlocked()))
                 .collect(Collectors.toList());
     }
 
@@ -42,7 +44,8 @@ public class UserService {
                         user.getEmail(),
                         user.getName(),
                         user.getSurname(),
-                        user.getRole()));
+                        user.getRole(),
+                        user.getNonBlocked()));
     }
 
     public Optional<User> getFullUserById (Integer id){
@@ -56,7 +59,8 @@ public class UserService {
                         user.getEmail(),
                         user.getName(),
                         user.getSurname(),
-                        user.getRole()));
+                        user.getRole(),
+                        user.getNonBlocked()));
     }
 
     public boolean deleteUser(Integer id) {
@@ -73,6 +77,13 @@ public class UserService {
 
     public User getUserByEmail(String email){
         return userRepository.findByEmail(email);
+    }
+
+    public void toggleUserBlock(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setNonBlocked(!user.getNonBlocked());
+        userRepository.save(user);
     }
 
     public User saveUser(User user) {

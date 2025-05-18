@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,8 +67,8 @@ public class AuthService {
             );
         } catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Nieprawidłowy email lub hasło");
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        } catch (LockedException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Twoje Konto zostało zablokowane");
         }
 
         User user = userService.getUserByEmail(request.getEmail());
