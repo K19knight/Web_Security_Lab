@@ -5,6 +5,7 @@ import com.example.hotelmanage.model.User;
 import com.example.hotelmanage.model.dto.ChangePasswordDto;
 import com.example.hotelmanage.model.dto.UpdateUserDto;
 import com.example.hotelmanage.model.dto.UserDto;
+import com.example.hotelmanage.repository.ReservationRepository;
 import com.example.hotelmanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReservationRepository reservationService;
 
 
     public List<UserDto> getAllUsers() {
@@ -65,6 +69,7 @@ public class UserService {
 
     public boolean deleteUser(Integer id) {
         if (userRepository.findById(id).isPresent()) {
+            reservationService.deleteUserReservations(id);
             userRepository.deleteById(id);
             return true;
         }

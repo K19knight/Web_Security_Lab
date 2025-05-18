@@ -1,7 +1,9 @@
 package com.example.hotelmanage.repository;
 
 import com.example.hotelmanage.model.Reservation;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
@@ -16,4 +18,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Integer> findReservedRoomsId (LocalDateTime start, LocalDateTime end);
 
     List<Reservation> findAllByCustomerId(Integer userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM Reservation WHERE customer.id = ?1")
+    public void deleteUserReservations(Integer userId);
 }

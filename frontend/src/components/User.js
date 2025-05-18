@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUser, FaBan, FaUnlock } from 'react-icons/fa';
+import { FaUser, FaBan, FaUnlock, FaTrash } from 'react-icons/fa';
 import axios from '../auth/config/axiosConfig';
 import { toast } from 'react-toastify';
 
@@ -11,6 +11,20 @@ const User = ({ user, onStatusChange }) => {
             onStatusChange();
         } catch (error) {
             toast.error("Błąd podczas zmiany statusu użytkownika");
+            console.error(error);
+        }
+    };
+
+    const handleDeleteUser = async () => {
+        const confirmed = window.confirm(`Czy na pewno chcesz usunąć użytkownika ${user.email}?`);
+        if (!confirmed) return;
+
+        try {
+            await axios.delete(`/api/user/${user.id}`);
+            toast.success(`Użytkownik ${user.email} został usunięty`);
+            onStatusChange();
+        } catch (error) {
+            toast.error("Błąd podczas usuwania użytkownika");
             console.error(error);
         }
     };
@@ -27,13 +41,22 @@ const User = ({ user, onStatusChange }) => {
             <div className={`reservation-status ${user.nonBlocked ? 'active' : 'closed'}`}>
                 {user.nonBlocked ? 'Aktywny' : 'Zablokowany'}
             </div>
-            <button
-                onClick={handleToggleBlock}
-                className={`btn ${user.nonBlocked ? 'btn-danger' : 'btn-success'}`}
-                style={{ marginTop: '10px' }}
-            >
-                {user.nonBlocked ? <><FaBan style={{ marginRight: '5px' }} />Zablokuj</> : <><FaUnlock style={{ marginRight: '5px' }} />Odblokuj</>}
-            </button>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                <button
+                    onClick={handleToggleBlock}
+                    className={`btn ${user.nonBlocked ? 'btn-danger' : 'btn-success'}`}
+                >
+                    {user.nonBlocked ? <><FaBan style={{ marginRight: '5px' }} />Zablokuj</> : <><FaUnlock style={{ marginRight: '5px' }} />Odblokuj</>}
+                </button>
+
+                <button
+                    onClick={handleDeleteUser}
+                    className="btn btn-outline-danger"
+                    title="Usuń użytkownika"
+                >
+                    <FaTrash />
+                </button>
+            </div>
         </div>
     );
 };

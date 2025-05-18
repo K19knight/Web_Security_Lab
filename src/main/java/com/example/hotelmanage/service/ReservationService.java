@@ -38,6 +38,10 @@ public class ReservationService {
         return repository.findById(id);
     }
 
+    public void deleteUserReservations(Integer userId){
+        repository.deleteUserReservations(userId);
+    }
+
     public ResponseEntity<?> getMyReservations(CustomUserDetails userDetails) {
         Integer userId = userDetails.getUser().getId();
 
