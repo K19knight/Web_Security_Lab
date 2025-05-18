@@ -30,7 +30,7 @@ const User = ({ user, onStatusChange }) => {
     };
 
     return (
-        <div className="manage-users-user">
+        <div className="manage-user">
             <div className="manage-users-field">
                 <strong><FaUser style={{ marginRight: '5px' }} />ID:</strong> {user.id}
             </div>

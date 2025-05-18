@@ -21,7 +21,7 @@ const ManageUsers = () => {
     }, []);
 
     return (
-        <div className="manager-users-container">
+        <div className="manager-container">
             <h2 className="page-title">Lista użytkowników</h2>
             {users.length === 0 ? (
                 <p>Brak użytkowników do wyświetlenia</p>

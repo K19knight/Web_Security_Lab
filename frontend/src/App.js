@@ -15,6 +15,7 @@ import MyProfile from "./pages/MyProfile";
 import ReserveRoom from "./pages/ReserveRoom";
 import ManageUsers from "./pages/admin/ManageUsers";
 import Footer from "./components/Footer";
+import ManageRooms from "./pages/admin/ManageRooms";
 
 function App() {
 
@@ -33,8 +34,7 @@ function App() {
                 <Route path="/myProfile" element={<MyProfile/>}/>
                 <Route element={<IsAdmin/>}>
                     <Route path="/addRoom" element={<AddRoom/>}/>
-                    <Route path="/manageRooms"/>
-                    <Route path="/manageRooms/edit"/>
+                    <Route path="/manageRooms" element={<ManageRooms/>}/>
                     <Route path="/manageReservation"/>
                     <Route path="/manageUsers" element={<ManageUsers/>}/>
                 </Route>
@@ -50,7 +50,7 @@ function App() {
                 <div id={"container"}>
                     {routes}
                 </div>
-                <Footer />
+                <Footer/>
             </AuthProvider>
         </Router>
     );

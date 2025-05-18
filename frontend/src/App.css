@@ -147,7 +147,7 @@ body {
     color: #721c24;
 }
 
-.manager-users-container{
+.manager-container{
     background-color: rgba(255, 255, 255, 0.85);
     padding: 20px 40px 20px 40px;
     border-radius: 12px;
@@ -159,7 +159,7 @@ body {
     backdrop-filter: blur(3px);
 }
 
-.manage-users-user {
+.manage-user {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -178,6 +178,38 @@ body {
     flex: 1;
     max-width: 50%;
 }
+
+.manage-room{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 15px 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.manage-room input{
+    border: 1px solid #ced4da;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 1rem;
+}
+
+.manage-room-field{
+    flex: 1;
+    max-width: 50%;
+}
+
+.room-actions button{
+    margin-right: 10px;
+}
+
 
 .reserve-page{
     background-color: rgba(255, 255, 255, 0.85);
