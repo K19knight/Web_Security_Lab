@@ -16,12 +16,14 @@ import ReserveRoom from "./pages/ReserveRoom";
 import ManageUsers from "./pages/admin/ManageUsers";
 import Footer from "./components/Footer";
 import ManageRooms from "./pages/admin/ManageRooms";
+import ManageReservation from "./pages/admin/ManageReservation";
+import Home from "./pages/Home";
 
 function App() {
 
     let routes = (
         <Routes>
-            <Route path="/"/>
+            <Route path="/" element={<Home/>}/>
             <Route element={<NotLoggedIn/>}>
                 <Route path="/login" element={<LoginForm/>}/>
                 <Route path="/register" element={<Register/>}/>
@@ -35,7 +37,7 @@ function App() {
                 <Route element={<IsAdmin/>}>
                     <Route path="/addRoom" element={<AddRoom/>}/>
                     <Route path="/manageRooms" element={<ManageRooms/>}/>
-                    <Route path="/manageReservation"/>
+                    <Route path="/manageReservation" element={<ManageReservation/>}/>
                     <Route path="/manageUsers" element={<ManageUsers/>}/>
                 </Route>
             </Route>
