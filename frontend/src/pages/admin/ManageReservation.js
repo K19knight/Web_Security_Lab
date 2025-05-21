@@ -20,11 +20,9 @@ const ManageReservations = () => {
             });
 
             const sorted = enrichedReservations.sort((a, b) => {
-                // Najpierw aktywne, potem zakończone
                 if (a.isActive !== b.isActive) {
                     return a.isActive ? -1 : 1;
                 }
-                // Jeśli oba są w tej samej kategorii, sortuj malejąco po dacie końcowej
                 return new Date(b.end) - new Date(a.end);
             });
 

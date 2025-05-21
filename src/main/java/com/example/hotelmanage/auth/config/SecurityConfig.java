@@ -1,5 +1,6 @@
 package com.example.hotelmanage.auth.config;
 
+import com.example.hotelmanage.auth.sec.RateLimitFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    @Bean
-    public JwtAthFilter getJwtAthFilter() {
-        return new JwtAthFilter();
-    }
-
+    private final JwtAthFilter jwtAthFilter;
+    private final RateLimitFilter rateLimitFilter;
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
@@ -36,6 +33,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return new CustomUserDetailService();
     }
+
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -58,6 +56,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
                 .authorizeHttpRequests((request) ->
                         request
@@ -72,7 +71,8 @@ public class SecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(authenticationEntryPoint))
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(this.getJwtAthFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtAthFilter, RateLimitFilter.class)
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
