@@ -4,6 +4,8 @@ import com.example.hotelmanage.model.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -32,7 +34,10 @@ public class User {
     private Boolean nonBlocked;
 
     @Column
-    private Integer blockDuration;
+    private LocalDateTime blockDuration;
+
+    @Column(columnDefinition = "numeric default 0")
+    private Integer failedLoginAttempts;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
