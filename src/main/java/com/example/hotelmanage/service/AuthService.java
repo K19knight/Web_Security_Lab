@@ -19,11 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class AuthService {
@@ -42,6 +44,22 @@ public class AuthService {
 
     private final Integer MAX_FAILED_ATTEMPTS = 5;
     private final Duration BLOCK_TIME = Duration.ofMinutes(15);
+    private static final Pattern SQL_INJECTION_PATTERN = Pattern.compile("(?i)\\b(SELECT|DROP|INSERT|DELETE|UPDATE|OR|AND|--|;|'|\")\\b");
+
+
+    public void validateNoSqlInjection(Object request) throws IllegalAccessException {
+        Field[] fields = request.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getType().equals(String.class)) {
+                field.setAccessible(true);
+                String value = (String) field.get(request);
+                if (value != null && SQL_INJECTION_PATTERN.matcher(value).find()) {
+                    throw new IllegalArgumentException("Pole '" + field.getName() + "' zawiera niedozwolone znaki lub słowa");
+                }
+
+            }
+        }
+    }
 
     public AuthRes register(RegisterReq request) {
         User existingUser = userService.getUserByEmail(request.getEmail());
@@ -64,6 +82,7 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
         return AuthRes.builder().token(token).build();
     }
+
 
     public AuthRes login(AuthReq request) {
         User user = userService.getUserByEmail(request.getEmail());

@@ -1,22 +1,55 @@
-import React, {useState} from 'react';
-import {useAuth} from '../auth/AuthContext';
-import axios from '../auth/config/axiosConfig'
-import {toast} from "react-toastify";
+import React, { useState } from 'react';
+import { useAuth } from '../auth/AuthContext';
+import axios from '../auth/config/axiosConfig';
+import { toast } from "react-toastify";
+
 const LoginForm = () => {
-    const {login, error} = useAuth();
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const validate = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const sqlInjectionPattern = /(\b(SELECT|DROP|INSERT|DELETE|UPDATE|OR|AND|--|;|'|"|=)\b)/i;
+
+        if (!email) {
+            toast.error('Email jest wymagany');
+            return false;
+        }
+        if (!emailRegex.test(email)) {
+            toast.error('Niepoprawny format email');
+            return false;
+        }
+        if (sqlInjectionPattern.test(email)) {
+            toast.error('Email zawiera niedozwolone znaki lub słowa');
+            return false;
+        }
+
+        if (!password) {
+            toast.error('Hasło jest wymagane');
+            return false;
+        }
+        if (sqlInjectionPattern.test(password)) {
+            toast.error('Hasło zawiera niedozwolone znaki lub słowa');
+            return false;
+        }
+        return true;
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        if (!validate()) {
+            return;
+        }
+
         try {
-            const response = await axios.post("/auth/login", { email, password });
+            const response = await axios.post('/auth/login', { email, password });
             const token = response.data.token;
             login(token);
-            toast.success("Zalogowano pomyślnie");
+            toast.success('Zalogowano pomyślnie');
         } catch (error) {
-            const message = error.response?.data?.message || "Błąd logowania";
+            const message = error.response?.data?.message || 'Błąd logowania';
             toast.error(message);
         }
     };

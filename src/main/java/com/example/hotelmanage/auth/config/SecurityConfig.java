@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((request) ->
                         request
                                 .requestMatchers("/auth/**", "/api/**").permitAll()
+                                .requestMatchers("/unsecure/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> {
