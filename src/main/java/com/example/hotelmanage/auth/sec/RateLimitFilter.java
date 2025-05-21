@@ -52,7 +52,7 @@ public class RateLimitFilter extends OncePerRequestFilter implements Ordered {
             Bucket bucket = resolveBucket(ip);
 
             if (!bucket.tryConsume(1)) {
-                blockedUntil.put(ip, now + Duration.ofMinutes(1).toMillis()); // blokada na 1 min
+                blockedUntil.put(ip, now + Duration.ofMinutes(1).toMillis());
                 response.setStatus(429);
                 response.getWriter().write("Too many login attempts. Try again later.");
                 return;
