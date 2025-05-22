@@ -103,8 +103,8 @@ public class UserService {
         }
         User user = existingUserOpt.get();
         user.setName(userDto.getName());
-        user.setEmail(user.getEmail());
-        user.setSurname(user.getSurname());
+        user.setEmail(userDto.getEmail());
+        user.setSurname(userDto.getSurname());
 
         User updated = userRepository.save(user);
         return getUserById(updated.getId());

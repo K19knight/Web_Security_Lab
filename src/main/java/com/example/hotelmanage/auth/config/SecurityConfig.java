@@ -64,10 +64,8 @@ public class SecurityConfig {
                                 .requestMatchers("/unsecure/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> {
-                    session
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                })
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(authenticationEntryPoint))
