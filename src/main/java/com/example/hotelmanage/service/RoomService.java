@@ -33,6 +33,7 @@ public class RoomService {
                 .size(newRoom.getSize())
                 .maxGuests(newRoom.getMaxGuests())
                 .pricePerOneNight(newRoom.getPricePerOneNight())
+                .description(newRoom.getDescription())
                 .build();
         return roomRepository.save(room);
     }

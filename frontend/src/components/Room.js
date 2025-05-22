@@ -80,6 +80,12 @@ const Room = ({ room, roomRent, hideRentButton = false }) => {
                 <h3><strong>{totalPrice} zł </strong></h3>
                 <p><strong>Data zameldowania:</strong> {new Date(JSON.parse(localStorage.getItem("roomSearchParams"))?.start).toLocaleDateString()}</p>
                 <p><strong>Data wymeldowania:</strong> {new Date(JSON.parse(localStorage.getItem("roomSearchParams"))?.end).toLocaleDateString()}</p>
+                {room.description && (
+                    <div className="room-description">
+                        <p><strong>Opis pokoju:</strong></p>
+                        <div dangerouslySetInnerHTML={{ __html: room.description }} />
+                    </div>
+                )}
 
 
                 {(user || isAdmin) && (
@@ -93,17 +99,7 @@ const Room = ({ room, roomRent, hideRentButton = false }) => {
                     </div>
                 )}
 
-                {roomRent && (
-                    <div className="rent-info">
-                        <p><strong>Cena za noc: {roomRent.price} PLN </strong></p>
-                        <p><strong>Okres wynajmu (w dniach):</strong> {roomRent.term} dni</p>
-                        <p><strong>Data rozpoczęcia wynajmu:</strong> {new Date(roomRent.rentDate).toLocaleDateString()}
-                        </p>
-                        <p><strong>Data zakończenia
-                            wynajmu:</strong> {new Date(new Date(roomRent.rentDate).getTime() + roomRent.term * 24 * 60 * 60 * 1000).toLocaleDateString()}
-                        </p>
-                    </div>
-                )}
+
             </div>
 
             <div className="room-image">

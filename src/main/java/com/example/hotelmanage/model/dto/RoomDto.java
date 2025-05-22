@@ -8,11 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomDto {
-
     private Integer size;
-
     private Integer maxGuests;
-
     private Integer pricePerOneNight;
-
+    private String description = "";
 }

@@ -26,4 +26,7 @@ public class Room {
 
     @Column(nullable = false)
     private Integer pricePerOneNight;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 }

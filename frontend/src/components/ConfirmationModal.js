@@ -41,6 +41,12 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, formData }) => {
                 <p>Rozmiar:<strong> {formData.size} m²</strong></p>
                 <p>Maks. liczba gości:<strong> {formData.maxGuests}</strong></p>
                 <p>Cena za noc: <strong>{formData.pricePerOneNight} PLN</strong></p>
+                {formData.description && (
+                    <div>
+                        <strong>Opis pokoju:</strong>
+                        <p>{formData.description}</p>
+                    </div>
+                )}
 
                 <div className="modal-buttons">
                     <button className="modal-button-confirm" onClick={onConfirm}>Dodaj</button>
