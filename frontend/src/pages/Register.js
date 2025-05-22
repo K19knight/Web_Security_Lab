@@ -15,11 +15,39 @@ const Register = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
+
+    // Funkcja sprawdzająca, czy pole tekstowe nie zawiera tagów HTML lub podejrzanych atrybutów
+    const validateTextInput = (text) => {
+        const forbiddenPatterns = [
+            /<\s*script.*?>/i,
+            /<\/\s*script\s*>/i,
+            /<.*on\w+\s*=/i,   // np. onerror=, onclick= itp.
+            /<.*javascript:/i,
+            /<.*>/i  // jakikolwiek inny tag HTML
+        ];
+        for (const pattern of forbiddenPatterns) {
+            if (pattern.test(text)) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     const handleRegister = async (e) => {
         e.preventDefault();
 
         if (!validateEmail(email)) {
             toast.error("Wprowadź poprawny adres e-mail");
+            return;
+        }
+
+        if (!validateTextInput(name)) {
+            toast.error("Imię zawiera niedozwolone znaki lub tagi HTML");
+            return;
+        }
+
+        if (!validateTextInput(surname)) {
+            toast.error("Nazwisko zawiera niedozwolone znaki lub tagi HTML");
             return;
         }
 
@@ -46,7 +74,6 @@ const Register = () => {
             toast.error(message);
         }
     };
-
 
     return (
         <div className="login-page">
@@ -116,7 +143,6 @@ const Register = () => {
                     Zarejestruj się
                 </button>
             </form>
-
         </div>
     );
 }

@@ -1,5 +1,6 @@
 package com.example.hotelmanage.service;
 
+import com.example.hotelmanage.auth.sec.InputValidator;
 import com.example.hotelmanage.model.Room;
 import com.example.hotelmanage.model.dto.RoomDto;
 import com.example.hotelmanage.model.dto.RoomFilterDto;
@@ -36,6 +37,10 @@ public class RoomService {
                 .description(newRoom.getDescription())
                 .build();
         return roomRepository.save(room);
+    }
+
+    public void validateNoXSS(Object request) {
+        InputValidator.validateNoXSS(request);
     }
 
     public boolean deleteRoom(Integer id) {

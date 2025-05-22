@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/room")
@@ -34,9 +35,15 @@ public class RoomController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Room> addRoom(@RequestBody RoomDto newRoom) {
-        Room room = roomService.addRoom(newRoom);
-        return new ResponseEntity<>(room, HttpStatus.CREATED);
+    public ResponseEntity<?> addRoom(@RequestBody RoomDto newRoom) {
+        try {
+            roomService.validateNoXSS(newRoom);
+            Room room = roomService.addRoom(newRoom);
+            return new ResponseEntity<>(room, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> error = Map.of("message", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @DeleteMapping("/{roomId}")
@@ -48,10 +55,18 @@ public class RoomController {
 
     @PutMapping("/{roomId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Room> editRoom(@PathVariable Integer roomId, @RequestBody RoomDto editRoom) {
-        Room room = roomService.editRoom(roomId, editRoom);
-        return ResponseEntity.ok(room);
+    public ResponseEntity<?> editRoom(@PathVariable Integer roomId, @RequestBody RoomDto editRoom) {
+        try {
+            roomService.validateNoXSS(editRoom);
+            Room room = roomService.editRoom(roomId, editRoom);
+            return ResponseEntity.ok(room);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> error = Map.of("message", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+
     }
+
     @PostMapping("/getAvailable")
     public ResponseEntity<List<Room>> getAvailableRooms(@RequestBody RoomFilterDto roomDto) {
         List<Room> rooms = roomService.getAvailable(roomDto);

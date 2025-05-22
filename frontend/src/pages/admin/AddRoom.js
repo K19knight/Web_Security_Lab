@@ -40,6 +40,25 @@ const AddRoom = () => {
             return false;
         }
 
+        // Prosta sanityzacja pola description - blokujemy obecność tagów HTML i atrybutów eventów JS
+        const forbiddenPatterns = [
+            /<\s*script.*?>/i,
+            /<\/\s*script\s*>/i,
+            /<.*on\w+\s*=/i,   // np. onerror=, onclick= itp.
+            /<.*javascript:/i,
+            /<.*\s*src\s*=\s*['"]?javascript:/i,
+            /<.*>/i  // jakikolwiek inny tag HTML
+        ];
+
+        if (formData.description.trim() !== '') {
+            for (const pattern of forbiddenPatterns) {
+                if (pattern.test(formData.description)) {
+                    toast.error("Opis pokoju zawiera niedozwolone znaki lub tagi HTML.");
+                    return false;
+                }
+            }
+        }
+
         return true;
     };
 

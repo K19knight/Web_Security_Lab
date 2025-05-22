@@ -5,6 +5,7 @@ import com.example.hotelmanage.auth.config.CustomUserDetails;
 import com.example.hotelmanage.auth.model.AuthReq;
 import com.example.hotelmanage.auth.model.AuthRes;
 import com.example.hotelmanage.auth.model.RegisterReq;
+import com.example.hotelmanage.auth.sec.InputValidator;
 import com.example.hotelmanage.model.User;
 import com.example.hotelmanage.model.dto.ChangePasswordDto;
 import com.example.hotelmanage.model.enums.UserType;
@@ -44,21 +45,13 @@ public class AuthService {
 
     private final Integer MAX_FAILED_ATTEMPTS = 5;
     private final Duration BLOCK_TIME = Duration.ofMinutes(15);
-    private static final Pattern SQL_INJECTION_PATTERN = Pattern.compile("(?i)\\b(SELECT|DROP|INSERT|DELETE|UPDATE|OR|AND|--|;|'|\")\\b");
 
+    public void validateNoXSS(Object request) {
+        InputValidator.validateNoXSS(request);
+    }
 
     public void validateNoSqlInjection(Object request) throws IllegalAccessException {
-        Field[] fields = request.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            if (field.getType().equals(String.class)) {
-                field.setAccessible(true);
-                String value = (String) field.get(request);
-                if (value != null && SQL_INJECTION_PATTERN.matcher(value).find()) {
-                    throw new IllegalArgumentException("Pole '" + field.getName() + "' zawiera niedozwolone znaki lub słowa");
-                }
-
-            }
-        }
+        InputValidator.validateNoSqlInjection(request);
     }
 
     public AuthRes register(RegisterReq request) {
@@ -74,6 +67,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserType.USER)
                 .nonBlocked(true)
+                .failedLoginAttempts(0)
                 .build();
 
         userService.saveUser(user);

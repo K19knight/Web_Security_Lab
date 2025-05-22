@@ -186,17 +186,16 @@ const MyProfile = () => {
                     )}
                 </div>
             </div>
-            <div className="my-reservation">
-                {reservations.length > 0 && (
-                    <div style={{ marginTop: '40px' }}>
+            {reservations.length > 0 && (
+                <div className="my-reservation">
+                    <div style={{marginTop: '40px'}}>
                         <h3 className="page-title">Moje rezerwacje</h3>
                         {sortedReservations.map(res => (
-                            <MyReservation key={res.reservationId} reservation={res} onCancel={refreshReservations} />
+                            <MyReservation key={res.reservationId} reservation={res} onCancel={refreshReservations}/>
                         ))}
                     </div>
-                )}
-            </div>
-
+                </div>
+            )}
         </div>
     );
 };

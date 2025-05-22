@@ -30,6 +30,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReq request) throws IllegalAccessException {
         authService.validateNoSqlInjection(request);
+        authService.validateNoXSS(request);
         try {
             AuthRes response = authService.register(request);
             return ResponseEntity.ok(response);
@@ -44,6 +45,7 @@ public class AuthController {
     public ResponseEntity<?> login(@Valid @RequestBody AuthReq request) throws IllegalAccessException {
         // Walidacja Danych pochodzących od użytkownika po stronie Backendu
         authService.validateNoSqlInjection(request);
+        authService.validateNoXSS(request);
 
         try {
             AuthRes response = authService.login(request);
