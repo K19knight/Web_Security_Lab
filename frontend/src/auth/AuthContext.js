@@ -37,8 +37,6 @@ export const AuthProvider = ({children}) => {
             const decoded = jwtDecode(token);
             const {exp, id, sub: email, role} = decoded;
             localStorage.setItem("authToken", token);
-            const expires = new Date(exp * 1000).toUTCString();
-            document.cookie = `authToken=${token}; expires=${expires};`;
             setUser({id, email, role});
             navigate("/");
         } catch (e) {
