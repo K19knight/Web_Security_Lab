@@ -83,7 +83,7 @@ const Room = ({ room, roomRent, hideRentButton = false }) => {
                 {room.description && (
                     <div className="room-description">
                         <p><strong>Opis pokoju:</strong></p>
-                        <div dangerouslySetInnerHTML={{ __html: room.description }} />
+                        <div>{room.description}</div>
                     </div>
                 )}
 

@@ -6,9 +6,12 @@ import com.example.hotelmanage.auth.model.AuthRes;
 import com.example.hotelmanage.auth.model.RegisterReq;
 import com.example.hotelmanage.model.dto.ChangePasswordDto;
 import com.example.hotelmanage.service.AuthService;
+import com.example.hotelmanage.service.TokenValidateService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +29,9 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private TokenValidateService invalidateToken;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReq request) throws IllegalAccessException {
@@ -54,6 +60,25 @@ public class AuthController {
             Map<String, String> error = new HashMap<>();
             error.put("message", ex.getReason());
             return ResponseEntity.status(ex.getStatusCode()).body(error);
+        }
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Brak nagłówka autoryzacji lub nieprawidłowy format"));
+        }
+        String token = authHeader.substring(7);
+        try {
+            // Dodanie do blacklisty
+            invalidateToken.blacklistToken(token);
+            return ResponseEntity.ok(Map.of("message", "Wylogowano pomyślnie"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Wystąpił błąd podczas unieważniania tokena"));
         }
     }
 

@@ -1,6 +1,8 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import axios from '../auth/config/axiosConfig';
+import {toast} from "react-toastify";
 
 const AuthContext = createContext();
 
@@ -45,10 +47,18 @@ export const AuthProvider = ({children}) => {
 
     }
 
-    const logout = () => {
-        localStorage.removeItem("authToken");
-        setUser(null);
-        navigate("/login");
+    const logout = async () => {
+        try {
+            await axios.post("/auth/logout");
+            toast.success("Wylogowano pomyślnie");
+        } catch (error) {
+            console.error("Błąd podczas wylogowywania:", error);
+            toast.error("Błąd podczas wylogowywania");
+        } finally {
+            localStorage.removeItem("authToken");
+            setUser(null);
+            navigate("/login");
+        }
     };
 
     return (
