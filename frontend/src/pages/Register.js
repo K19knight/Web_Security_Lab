@@ -16,6 +16,12 @@ const Register = () => {
         return emailRegex.test(email);
     };
 
+    //Sprawdzanie wymagań dotyczących haseł
+    const isStrongPassword = (password) => {
+        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
+        return strongPasswordRegex.test(password);
+    };
+
     // Funkcja sprawdzająca, czy pole tekstowe nie zawiera tagów HTML lub podejrzanych atrybutów
     const validateTextInput = (text) => {
         const forbiddenPatterns = [
@@ -48,6 +54,11 @@ const Register = () => {
 
         if (!validateTextInput(surname)) {
             toast.error("Nazwisko zawiera niedozwolone znaki lub tagi HTML");
+            return;
+        }
+
+        if (!isStrongPassword(password)) {
+            toast.error("Hasło musi mieć co najmniej 8 znaków, w tym dużą literę, małą literę, cyfrę i znak specjalny.");
             return;
         }
 
@@ -126,6 +137,15 @@ const Register = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                    <small className="form-text text-muted" style={{ marginTop: '5px' }}>
+                        Hasło musi zawierać co najmniej 8 znaków, w tym:
+                        <ul style={{ marginTop: '5px', marginBottom: 0, paddingLeft: '20px' }}>
+                            <li>dużą literę (A-Z)</li>
+                            <li>małą literę (a-z)</li>
+                            <li>cyfrę (0-9)</li>
+                            <li>znak specjalny (np. !@#$%^&*)</li>
+                        </ul>
+                    </small>
                 </div>
                 <div className="form-group">
                     <label htmlFor="register-confirm-password">Potwierdź hasło</label>
