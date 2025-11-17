@@ -1,4 +1,4 @@
-# Hotel Reservation Management System
+# Web Security Thesis
 
 ## Overview
 
