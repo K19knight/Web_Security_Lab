@@ -96,18 +96,14 @@ Injection prevention
 
 1.  Set up MySQL and configure `application.properties`:
 
-```{=html}
-<!-- -->
-```
+
     spring.datasource.url=jdbc:mysql://localhost:3306/hotel
     spring.datasource.username=root
     spring.datasource.password=your_password
 
 2.  Start backend:
 
-```{=html}
-<!-- -->
-```
+
     mvn spring-boot:run
 
 ### Frontend
